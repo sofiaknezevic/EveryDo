@@ -125,6 +125,10 @@
     
     [self.objects addObject:newToDo];
     
+    [self.objects removeObject: newToDo];
+    [self.objects insertObject:newToDo atIndex:0];
+    [self.tableView reloadData];
+    
     
 }
 
@@ -165,18 +169,20 @@
         [self.objects removeObjectAtIndex:indexPath.row];
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         
 
     }
 }
 
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)beginningIndexPath toIndexPath:(NSIndexPath *)lastIndex {
     
-    if (sourceIndexPath != destinationIndexPath) {
-        ToDo *todoObject = [self.objects objectAtIndex:sourceIndexPath.row];
-        [self.objects removeObjectAtIndex:sourceIndexPath.row];
-        [self.objects insertObject:todoObject atIndex:destinationIndexPath.row];
+    if (beginningIndexPath != lastIndex) {
+        
+        ToDo *todoObject = [self.objects objectAtIndex:beginningIndexPath.row];
+        [self.objects removeObjectAtIndex:beginningIndexPath.row];
+        [self.objects insertObject:todoObject atIndex:lastIndex.row];
         [self.tableView reloadData];
         
     }
