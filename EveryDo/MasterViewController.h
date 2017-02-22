@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AddItemViewController.h"
 
 @class DetailViewController;
 
-@interface MasterViewController : UITableViewController
+@interface MasterViewController : UITableViewController <AddItemProtocol>
 
 
 @end

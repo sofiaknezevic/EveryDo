@@ -7,7 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ToDo.h"
+
+@protocol AddItemProtocol <NSObject>
+
+- (void)addNewToDo:(ToDo *)newToDo;
+
+@end
 
 @interface AddItemViewController : UIViewController
+
+@property (nonatomic) id <AddItemProtocol> addItemDelegate;
 
 @end

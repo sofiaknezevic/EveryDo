@@ -17,6 +17,7 @@
 @property ToDo *toDo;
 
 
+
 @end
 
 @implementation MasterViewController
@@ -52,6 +53,10 @@
 
 
 - (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    [self.tableView reloadData];
 }
 
 
@@ -85,18 +90,20 @@
     
 }
 
-
-
-
 - (void)insertNewObject:(id)sender {
-    if (!self.objects) {
-        self.objects = [[NSMutableArray alloc] init];
-    }
+//    if (!self.objects) {
+//        self.objects = [[NSMutableArray alloc] init];
+//    }
+//    
+//    [self.objects insertObject:[ToDo new] atIndex:0];
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+//    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     
-    [self.objects insertObject:[ToDo new] atIndex:0];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self performSegueWithIdentifier:@"addItem" sender:nil];
+    
+    
 }
+
 
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -116,7 +123,7 @@
 
 
 
-#pragma mark - Segues
+#pragma mark - Segues -
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
@@ -128,12 +135,19 @@
         
     }else if([[segue identifier] isEqualToString:@"addItem"]){
         
-        
-        
-        
+        AddItemViewController *addController = (AddItemViewController *)[segue destinationViewController];
+        addController.addItemDelegate = self;
     }
 }
 
+#pragma mark - Adding new ToDos -
+
+- (void)addNewToDo:(ToDo *)newToDo
+{
+    
+    [self.objects addObject:newToDo];
+    
+}
 
 
 
