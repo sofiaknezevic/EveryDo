@@ -128,24 +128,28 @@
     
 }
 
-#pragma mark - Deleting -
+#pragma mark - Deleting & Completing -
 
 - (IBAction)swipedToDo:(UISwipeGestureRecognizer *)sender {
-    if (sender.direction == UISwipeGestureRecognizerDirectionRight) {
-        
     
-        CGPoint currPoint = [sender locationInView:self.tableView];
-        NSIndexPath *index = [self.tableView indexPathForRowAtPoint:currPoint];
-
+    CGPoint currPoint = [sender locationInView:self.tableView];
+    NSIndexPath *index = [self.tableView indexPathForRowAtPoint:currPoint];
+    NSIndexPath *lastOne = [NSIndexPath indexPathForRow:[self.objects count]-1 inSection:0];
+    
+    if (sender.direction == UISwipeGestureRecognizerDirectionRight) {
+    
         ToDo *doneToDo = self.objects[index.row];
         
         if(doneToDo.isCompleted == NO){
             
             doneToDo.isCompleted = YES;
         }
+        
+        [self tableView:self.tableView moveRowAtIndexPath:index toIndexPath:lastOne];
  
         [self.tableView reloadData];
     }
+    
     
 }
 
@@ -167,5 +171,16 @@
     }
 }
 
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+    
+    if (sourceIndexPath != destinationIndexPath) {
+        ToDo *todoObject = [self.objects objectAtIndex:sourceIndexPath.row];
+        [self.objects removeObjectAtIndex:sourceIndexPath.row];
+        [self.objects insertObject:todoObject atIndex:destinationIndexPath.row];
+        [self.tableView reloadData];
+        
+    }
+    
 
+}
 @end
