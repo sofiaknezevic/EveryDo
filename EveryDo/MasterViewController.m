@@ -24,6 +24,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.objects = [[NSMutableArray alloc] init];
+    
     UISwipeGestureRecognizer *swipedRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipedToDo:)];
     [self.tableView addGestureRecognizer:swipedRight];
     
@@ -32,23 +34,25 @@
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
     self.navigationItem.rightBarButtonItem = addButton;
     
-    ToDo *number1 = [[ToDo alloc] initWithTitle:@"clean room"
-                             andWithDescription:@"vaccuum and wash windows"
-                                andWithPriority:8];
     
-    ToDo *number2 = [[ToDo alloc] initWithTitle:@"clean bathroom"
-                             andWithDescription:@"sweep and take out garbage"
-                                andWithPriority:9];
-    
-    ToDo *number3 = [[ToDo alloc] initWithTitle:@"do homework"
-                             andWithDescription:@"review the day's material and catch up on overdue things"
-                                andWithPriority:4];
-    
-    self.objects = [[NSMutableArray alloc] init];
-    
-    [self.objects addObject:number1];
-    [self.objects addObject:number2];
-    [self.objects addObject:number3];
+    //hard-coded testing!
+//    ToDo *number1 = [[ToDo alloc] initWithTitle:@"clean room"
+//                             andWithDescription:@"vaccuum and wash windows"
+//                                andWithPriority:8];
+//    
+//    ToDo *number2 = [[ToDo alloc] initWithTitle:@"clean bathroom"
+//                             andWithDescription:@"sweep and take out garbage"
+//                                andWithPriority:9];
+//    
+//    ToDo *number3 = [[ToDo alloc] initWithTitle:@"do homework"
+//                             andWithDescription:@"review the day's material and catch up on overdue things"
+//                                andWithPriority:4];
+//    
+//
+//    
+//    [self.objects addObject:number1];
+//    [self.objects addObject:number2];
+//    [self.objects addObject:number3];
     
     
     
