@@ -11,8 +11,6 @@
 
 @interface ToDoTableViewCell : UITableViewCell
 
-
-
 - (void)setToDo:(ToDo *)toDo;
 
 @end

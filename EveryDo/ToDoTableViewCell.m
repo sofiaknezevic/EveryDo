@@ -16,6 +16,7 @@
 @property (nonatomic) IBOutlet UILabel *lineDescription;
 @property (nonatomic) IBOutlet UILabel *priorityNumber;
 
+
 @end
 
 @implementation ToDoTableViewCell
@@ -23,6 +24,9 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    
+
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -41,20 +45,27 @@
 
 - (void)configure {
     
-    if(self.toDo.isCompleted == YES){
+    NSString *oneLine = [[self.toDo.toDoDescription componentsSeparatedByString:@" "]objectAtIndex:0];
+    
+    if (self.toDo.isCompleted == NO) {
+        
+        self.labelTitle.text = self.toDo.title;
+        self.lineDescription.text = [NSString stringWithFormat:@"%@...", oneLine];
+        self.priorityNumber.text = [NSString stringWithFormat:@"P: %i", self.toDo.priorityNumber];
+                                      
+
+    }else{
         
         NSMutableAttributedString *strikedThrough = [[NSMutableAttributedString alloc]initWithString:self.toDo.title];
         [strikedThrough addAttribute:NSStrikethroughStyleAttributeName value:@2 range:NSMakeRange(0,[strikedThrough length])];
         
         self.labelTitle.attributedText = strikedThrough;
+
         
     }
     
-    NSString *oneLine = [[self.toDo.toDoDescription componentsSeparatedByString:@" "]objectAtIndex:0];
     
-    self.labelTitle.text = self.toDo.title;
-    self.lineDescription.text = [NSString stringWithFormat:@"%@...", oneLine];
-    self.priorityNumber.text = [NSString stringWithFormat:@"P: %i", self.toDo.priorityNumber];
+    
 
 
     

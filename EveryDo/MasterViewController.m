@@ -17,13 +17,15 @@
 @property ToDo *toDo;
 
 
-
 @end
 
 @implementation MasterViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    UISwipeGestureRecognizer *swipedRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipedToDo:)];
+    [self.tableView addGestureRecognizer:swipedRight];
     
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
@@ -47,6 +49,7 @@
     [self.objects addObject:number1];
     [self.objects addObject:number2];
     [self.objects addObject:number3];
+    
     
     
 }
@@ -83,7 +86,6 @@
     
     ToDoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     self.toDo = self.objects[indexPath.row];
-    //self.toDo.isCompleted = YES;
     [cell setToDo:self.toDo];
     
     return cell;
@@ -91,34 +93,10 @@
 }
 
 - (void)insertNewObject:(id)sender {
-//    if (!self.objects) {
-//        self.objects = [[NSMutableArray alloc] init];
-//    }
-//    
-//    [self.objects insertObject:[ToDo new] atIndex:0];
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-//    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     
     [self performSegueWithIdentifier:@"addItem" sender:nil];
     
     
-}
-
-
-
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self.objects removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }
 }
 
 
@@ -147,8 +125,47 @@
     
     [self.objects addObject:newToDo];
     
+    
 }
 
+#pragma mark - Deleting -
+
+- (IBAction)swipedToDo:(UISwipeGestureRecognizer *)sender {
+    if (sender.direction == UISwipeGestureRecognizerDirectionRight) {
+        
+    
+        CGPoint currPoint = [sender locationInView:self.tableView];
+        NSIndexPath *index = [self.tableView indexPathForRowAtPoint:currPoint];
+
+        ToDo *doneToDo = self.objects[index.row];
+        
+        if(doneToDo.isCompleted == NO){
+            
+            doneToDo.isCompleted = YES;
+        }
+ 
+        [self.tableView reloadData];
+    }
+    
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return NO if you do not want the specified item to be editable.
+    return YES;
+}
+
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self.objects removeObjectAtIndex:indexPath.row];
+        
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        
+
+    }
+}
 
 
 @end
